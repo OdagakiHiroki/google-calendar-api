@@ -1,12 +1,22 @@
-import { FC, useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import moment from "moment";
-import "moment/locale/ja";
-import "react-big-calendar/lib/sass/styles.scss";
-import "react-big-calendar/lib/addons/dragAndDrop/styles.scss";
+import { FC, useState } from 'react';
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
+import { format, parse, startOfWeek, getDay } from "date-fns";
+import ja from "date-fns/locale/ja";
+import 'react-big-calendar/lib/sass/styles.scss';
+import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import { useGetEvents } from "hooks";
 
-const localizer = momentLocalizer(moment);
+const locales = {
+  ja
+}
+
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
 
 const Header = (date: string) => {
   return <div>{date}</div>;
@@ -30,7 +40,7 @@ export const Top: FC = () => {
         // toolbar={false}
         components={{
           timeGutterHeader: () =>
-            Header(moment(currentDate).format("YYYYMMDD")),
+            Header("11"),
         }}
         onNavigate={(date) => setCurrentDate(date)}
       />
