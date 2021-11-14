@@ -1,11 +1,21 @@
 import { FC } from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar'
-import moment from "moment";
-import "moment/locale/ja";
+import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
+import { format, parse, startOfWeek, getDay } from "date-fns";
+import ja from "date-fns/locale/ja";
 import 'react-big-calendar/lib/sass/styles.scss';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 
-const localizer = momentLocalizer(moment);
+const locales = {
+  ja
+}
+
+const localizer = dateFnsLocalizer({
+  format,
+  parse,
+  startOfWeek,
+  getDay,
+  locales,
+});
 
 export const Top: FC = () => {
   return (
