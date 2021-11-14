@@ -5,10 +5,9 @@ import { ja } from "date-fns/locale";
 import 'react-big-calendar/lib/sass/styles.scss';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import { useGetEvents } from "hooks";
+import { Header } from "components/organisms/Header";
 
-const locales = {
-  ja
-}
+const locales = { ja };
 
 const localizer = dateFnsLocalizer({
   format,
@@ -18,7 +17,7 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const Header = (date: string) => {
+const TimeGutterHeader = (date: string) => {
   return <div>{date}</div>;
 };
 
@@ -29,6 +28,7 @@ export const Top: FC = () => {
 
   return (
     <div>
+      <Header title={"ttttt"}/>
       <Calendar
         culture="ja"
         localizer={localizer}
@@ -41,7 +41,7 @@ export const Top: FC = () => {
         // toolbar={false}
         components={{
           timeGutterHeader: () =>
-            Header(format(currentDate, "dd EEEE", { locale: ja })),
+            TimeGutterHeader(format(currentDate, "dd EEEE", { locale: ja })),
         }}
         onNavigate={(date) => setCurrentDate(date)}
       />
