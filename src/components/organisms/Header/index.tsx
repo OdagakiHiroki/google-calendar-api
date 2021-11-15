@@ -1,4 +1,4 @@
-import { FC, MouseEvent } from 'react';
+import { VFC, MouseEvent } from 'react';
 import { Container, Left, Center, Right } from "./style";
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   handleClickNext?: (e: MouseEvent<HTMLElement>) => void;
 };
 
-export const Header: FC<Props> = ({ title, handleClickPrev, handleClickNext }) => {
+export const Header: VFC<Props> = ({ title, handleClickPrev, handleClickNext }) => {
   return (
     <Container>
       <Left>🍔</Left>

@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { VFC, useState } from 'react';
 import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { ja } from "date-fns/locale";
@@ -22,7 +22,7 @@ const TimeGutterHeader = (date: string) => {
   return <div>{date}</div>;
 };
 
-export const Top: FC = () => {
+export const Top: VFC = () => {
   const events = useGetEvents();
   const [currentDate, setCurrentDate] = useState(new Date());
 
