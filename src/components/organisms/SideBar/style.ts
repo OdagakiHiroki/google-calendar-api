@@ -8,6 +8,7 @@ const Container = styled.div`
   left: 0px;
   background-color: #ffffff;
   border: 1px solid #eeeeee;
+  z-index: 10;
 `;
 
 export { Container };

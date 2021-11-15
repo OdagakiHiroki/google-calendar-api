@@ -1,5 +1,5 @@
-import { VFC, useState } from 'react';
-import { Calendar, dateFnsLocalizer } from 'react-big-calendar'
+import { VFC, MouseEvent, useState } from 'react';
+import { Calendar, dateFnsLocalizer, View } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { ja } from "date-fns/locale";
 import 'react-big-calendar/lib/sass/styles.scss';
@@ -25,6 +25,7 @@ const TimeGutterHeader = (date: string) => {
 
 export const Top: VFC = () => {
   const events = useGetEvents();
+  const [currentView, setCurrentView] = useState<View>("day");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isShowSideBar, setIsShowSideBar] = useState(false);
 
@@ -40,6 +41,11 @@ export const Top: VFC = () => {
     setCurrentDate(getNextDate(currentDate));
   }
 
+  const changeView = (e : MouseEvent<HTMLElement>, view: View) => {
+    setCurrentView(view);
+    setIsShowSideBar(false);
+  }
+
   return (
     <div>
       <Header
@@ -51,22 +57,24 @@ export const Top: VFC = () => {
       <Calendar
         culture="ja"
         localizer={localizer}
-        defaultView="day"
+        defaultView={currentView}
         defaultDate={currentDate}
-        // date={currentDate}
+        view={currentView}
+        date={currentDate}
         events={events}
         startAccessor="start"
         endAccessor="end"
-        // style={{ height: "100%" }}
+        style={{ height: "calc(100vh - 50px)" }}
         toolbar={false}
         components={{
           timeGutterHeader: () =>
             TimeGutterHeader(formatDate(currentDate, "dd EEEE")),
         }}
-        // onNavigate={(date) => console.debug(date)}
+        onView={() => {}}
+        onNavigate={() => {}}
       />
       {isShowSideBar && (
-        <SideBar />
+        <SideBar handleViewTypeClick={changeView}/>
       )}
     </div>
   );
