@@ -1,10 +1,18 @@
 import { VFC, MouseEvent, useState } from 'react';
-import { Calendar, dateFnsLocalizer, View } from 'react-big-calendar'
+import { Calendar, dateFnsLocalizer, Views, View } from 'react-big-calendar'
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { ja } from "date-fns/locale";
 import 'react-big-calendar/lib/sass/styles.scss';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
-import { formatDate, getNextDate, getPrevDate } from "utils";
+import {
+  formatDate,
+  getNextMonth,
+  getNextWeek,
+  getNextDate,
+  getPrevMonth,
+  getPrevWeek,
+  getPrevDate,
+} from "utils";
 import { useGetEvents } from "hooks";
 import { Header } from "components/organisms/Header";
 import { SideBar } from "components/organisms/SideBar";
@@ -34,11 +42,37 @@ export const Top: VFC = () => {
   }
 
   const prevClick = () => {
-    setCurrentDate(getPrevDate(currentDate));
+    const prevFunc = (() => {
+      switch (currentView) {
+        case Views.MONTH:
+          return getPrevMonth;
+        case Views.WEEK:
+        case Views.AGENDA:
+          return getPrevWeek;
+        case Views.DAY:
+          return getPrevDate;
+        default:
+          return getPrevDate;
+      }
+    })()
+    setCurrentDate(prevFunc(currentDate));
   }
 
   const nextClick = () => {
-    setCurrentDate(getNextDate(currentDate));
+    const nextFunc = (() => {
+      switch (currentView) {
+        case Views.MONTH:
+          return getNextMonth;
+        case Views.WEEK:
+        case Views.AGENDA:
+          return getNextWeek;
+        case Views.DAY:
+          return getNextDate;
+        default:
+          return getNextDate;
+      }
+    })()
+    setCurrentDate(nextFunc(currentDate));
   }
 
   const changeView = (e : MouseEvent<HTMLElement>, view: View) => {
