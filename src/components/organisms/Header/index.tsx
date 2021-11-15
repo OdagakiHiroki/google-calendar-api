@@ -1,19 +1,21 @@
-import { FC } from 'react';
+import { FC, MouseEvent } from 'react';
 import { Container, Left, Center, Right } from "./style";
 
 type Props = {
   className?: string;
   title: string;
+  handleClickPrev?: (e: MouseEvent<HTMLElement>) => void;
+  handleClickNext?: (e: MouseEvent<HTMLElement>) => void;
 };
 
-export const Header: FC<Props> = ({ title }) => {
+export const Header: FC<Props> = ({ title, handleClickPrev, handleClickNext }) => {
   return (
     <Container>
       <Left>🍔</Left>
       <Center>
-        <div>＜</div>
+        <div onClick={handleClickPrev}>＜</div>
         <div>{title}</div>
-        <div>＞</div>
+        <div onClick={handleClickNext}>＞</div>
       </Center>
       <Right></Right>
     </Container>
