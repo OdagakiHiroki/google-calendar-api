@@ -7,6 +7,7 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
 import { formatDate, getNextDate, getPrevDate } from "utils";
 import { useGetEvents } from "hooks";
 import { Header } from "components/organisms/Header";
+import { SideBar } from "components/organisms/SideBar";
 
 const locales = { ja };
 
@@ -25,6 +26,11 @@ const TimeGutterHeader = (date: string) => {
 export const Top: VFC = () => {
   const events = useGetEvents();
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [isShowSideBar, setIsShowSideBar] = useState(false);
+
+  const menuClick = () => {
+    setIsShowSideBar(!isShowSideBar);
+  }
 
   const prevClick = () => {
     setCurrentDate(getPrevDate(currentDate));
@@ -38,6 +44,7 @@ export const Top: VFC = () => {
     <div>
       <Header
         title={formatDate(currentDate, "yyyy年MM月dd日")}
+        handleClickMenu={menuClick}
         handleClickPrev={prevClick}
         handleClickNext={nextClick}
       />
@@ -50,7 +57,7 @@ export const Top: VFC = () => {
         events={events}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: "600px" }}
+        // style={{ height: "100%" }}
         toolbar={false}
         components={{
           timeGutterHeader: () =>
@@ -58,6 +65,9 @@ export const Top: VFC = () => {
         }}
         // onNavigate={(date) => console.debug(date)}
       />
+      {isShowSideBar && (
+        <SideBar />
+      )}
     </div>
   );
 };

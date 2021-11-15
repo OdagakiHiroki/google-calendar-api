@@ -6,12 +6,18 @@ type Props = {
   title: string;
   handleClickPrev?: (e: MouseEvent<HTMLElement>) => void;
   handleClickNext?: (e: MouseEvent<HTMLElement>) => void;
+  handleClickMenu?: (e: MouseEvent<HTMLElement>) => void;
 };
 
-export const Header: VFC<Props> = ({ title, handleClickPrev, handleClickNext }) => {
+export const Header: VFC<Props> = ({
+  title,
+  handleClickMenu,
+  handleClickPrev,
+  handleClickNext,
+}) => {
   return (
     <Container>
-      <Left>🍔</Left>
+      <Left onClick={handleClickMenu}>🍔</Left>
       <Center>
         <div onClick={handleClickPrev}>＜</div>
         <div>{title}</div>
@@ -19,5 +25,5 @@ export const Header: VFC<Props> = ({ title, handleClickPrev, handleClickNext }) 
       </Center>
       <Right></Right>
     </Container>
-  )
-}
+  );
+};
