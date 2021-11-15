@@ -1,4 +1,5 @@
 import {
+  format,
   addYears,
   addMonths,
   addDays,
@@ -6,7 +7,9 @@ import {
   subMonths,
   subDays,
 } from "date-fns";
+import { ja } from "date-fns/locale";
 import {
+  FormatDate,
   GetNextYear,
   GetNextMonth,
   GetNextDate,
@@ -14,6 +17,10 @@ import {
   GetPrevMonth,
   GetPrevDate,
 } from "./types/date";
+
+export const formatDate: FormatDate = (date, formatRule) => {
+  return format(date, formatRule, { locale: ja })
+}
 
 export const getNextDate: GetNextYear = (date) => {
   return addDays(date, 1);
