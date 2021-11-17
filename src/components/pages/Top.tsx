@@ -1,9 +1,10 @@
-import { VFC, MouseEvent, useState } from 'react';
-import { Calendar, dateFnsLocalizer, Views, View } from 'react-big-calendar'
+import { VFC, MouseEvent, useState } from "react";
+import { Calendar, dateFnsLocalizer, Views, View } from "react-big-calendar";
+import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { format, parse, startOfWeek, getDay } from "date-fns";
 import { ja } from "date-fns/locale";
-import 'react-big-calendar/lib/sass/styles.scss';
-import 'react-big-calendar/lib/addons/dragAndDrop/styles.scss';
+import "react-big-calendar/lib/sass/styles.scss";
+import "react-big-calendar/lib/addons/dragAndDrop/styles.scss";
 import {
   formatDate,
   getNextMonth,
@@ -27,6 +28,8 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
+const DragAndDropCalendar = withDragAndDrop(Calendar as any);
+
 const TimeGutterHeader = (date: string) => {
   return <div>{date}</div>;
 };
@@ -39,7 +42,7 @@ export const Top: VFC = () => {
 
   const menuClick = () => {
     setIsShowSideBar(!isShowSideBar);
-  }
+  };
 
   const prevClick = () => {
     const prevFunc = (() => {
@@ -54,9 +57,9 @@ export const Top: VFC = () => {
         default:
           return getPrevDate;
       }
-    })()
+    })();
     setCurrentDate(prevFunc(currentDate));
-  }
+  };
 
   const nextClick = () => {
     const nextFunc = (() => {
@@ -71,14 +74,14 @@ export const Top: VFC = () => {
         default:
           return getNextDate;
       }
-    })()
+    })();
     setCurrentDate(nextFunc(currentDate));
-  }
+  };
 
-  const changeView = (e : MouseEvent<HTMLElement>, view: View) => {
+  const changeView = (e: MouseEvent<HTMLElement>, view: View) => {
     setCurrentView(view);
     setIsShowSideBar(false);
-  }
+  };
 
   return (
     <div>
@@ -88,7 +91,7 @@ export const Top: VFC = () => {
         handleClickPrev={prevClick}
         handleClickNext={nextClick}
       />
-      <Calendar
+      <DragAndDropCalendar
         culture="ja"
         localizer={localizer}
         defaultView={currentView}
@@ -106,10 +109,20 @@ export const Top: VFC = () => {
         }}
         onView={() => {}}
         onNavigate={() => {}}
+        selectable
+        onDragStart={console.debug}
+        onEventDrop={console.debug}
+        resizable
+        // onEventResize={this.resizeEvent}
+        // onSelectSlot={this.newEvent}
+        popup={true}
+        // dragFromOutsideItem={
+        //   this.state.displayDragItemInCell ? this.dragFromOutsideItem : null
+        // }
+        // onDropFromOutside={this.onDropFromOutside}
+        // handleDragStart={this.handleDragStart}
       />
-      {isShowSideBar && (
-        <SideBar handleViewTypeClick={changeView}/>
-      )}
+      {isShowSideBar && <SideBar handleViewTypeClick={changeView} />}
     </div>
   );
 };
