@@ -107,9 +107,9 @@ export const Top: VFC = () => {
         onView={() => {}}
         onNavigate={() => {}}
       />
-      {isShowSideBar && (
+      {/* {isShowSideBar && (
         <SideBar handleViewTypeClick={changeView}/>
-      )}
+      )} */}
     </div>
   );
 };

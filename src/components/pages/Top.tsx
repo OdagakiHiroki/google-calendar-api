@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import FullCalendar, { CalendarApi } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import listPlugin from '@fullcalendar/list';
 import { formatDate } from "utils";
 import { Header } from "components/organisms/Header";
+import { SideBar } from "components/organisms/SideBar";
 import { useGetEvents } from "hooks";
 
 export const Top: React.VFC = () => {
@@ -11,6 +13,8 @@ export const Top: React.VFC = () => {
   const calendarRef = useRef<FullCalendar>(null);
   const [calendarApi, setCalendarApi] = useState<CalendarApi>();
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentView, setCurrentView] = useState("dayGridMonth");
+  const [isShowSideBar, setIsShowSideBar] = useState(false);
 
   useEffect(() => {
     if (!calendarRef) {
@@ -35,6 +39,10 @@ export const Top: React.VFC = () => {
     });
   }
 
+  const menuClick = () => {
+    setIsShowSideBar(!isShowSideBar);
+  }
+
   const prevClick = () => {
     if (!calendarApi) {
       return;
@@ -51,11 +59,20 @@ export const Top: React.VFC = () => {
     setCurrentDate(calendarApi?.getDate());
   }
 
+  const changeView = (e : React.MouseEvent<HTMLElement>, viewType: string) => {
+    if (!calendarApi) {
+      return;
+    }
+    calendarApi?.changeView(viewType);
+    setCurrentView(viewType);
+    setIsShowSideBar(false);
+  }
+
   return (
     <div>
       <Header
         title={formatDate(currentDate, "yyyy年MM月dd日")}
-        // handleClickMenu={menuClick}
+        handleClickMenu={menuClick}
         handleClickPrev={prevClick}
         handleClickNext={nextClick}
       />
@@ -64,10 +81,18 @@ export const Top: React.VFC = () => {
         ref={calendarRef}
         locale="ja"
         headerToolbar={false}
-        plugins={[dayGridPlugin]}
-        initialView="dayGridMonth"
+        plugins={[dayGridPlugin, listPlugin]}
+        initialView={currentView}
         events={events}
       />
+      {isShowSideBar && (
+        <SideBar
+          handleScheduleClick={(e) => changeView(e, "listYear")}
+          handleDateClick={(e) => changeView(e, "dayGridDay")}
+          handleWeekClick={(e) => changeView(e, "dayGridWeek")}
+          handleMonthClick={(e) => changeView(e, "dayGridMonth")}
+        />
+      )}
     </div>
   )
 }
