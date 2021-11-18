@@ -1,7 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react'
-import FullCalendar, { CalendarApi } from "@fullcalendar/react";
+import React, { useState, useEffect, useRef } from "react";
+import FullCalendar, { CalendarApi, EventDropArg } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import listPlugin from '@fullcalendar/list';
+import listPlugin from "@fullcalendar/list";
+import interactionPlugin, {
+  EventDragStartArg,
+  EventDragStopArg,
+} from "@fullcalendar/interaction";
 import { formatDate } from "utils";
 import { Header } from "components/organisms/Header";
 import { SideBar } from "components/organisms/SideBar";
@@ -26,7 +30,7 @@ export const Top: React.VFC = () => {
       return;
     }
     setCurrentDate(calendarApi?.getDate());
-  }, [calendarApi])
+  }, [calendarApi]);
 
   const addEvent = () => {
     if (!calendarApi) {
@@ -37,11 +41,11 @@ export const Top: React.VFC = () => {
       start: "2021-11-10",
       end: "2021-11-11",
     });
-  }
+  };
 
   const menuClick = () => {
     setIsShowSideBar(!isShowSideBar);
-  }
+  };
 
   const prevClick = () => {
     if (!calendarApi) {
@@ -49,7 +53,7 @@ export const Top: React.VFC = () => {
     }
     calendarApi?.prev();
     setCurrentDate(calendarApi?.getDate());
-  }
+  };
 
   const nextClick = () => {
     if (!calendarApi) {
@@ -57,16 +61,28 @@ export const Top: React.VFC = () => {
     }
     calendarApi?.next();
     setCurrentDate(calendarApi?.getDate());
-  }
+  };
 
-  const changeView = (e : React.MouseEvent<HTMLElement>, viewType: string) => {
+  const changeView = (e: React.MouseEvent<HTMLElement>, viewType: string) => {
     if (!calendarApi) {
       return;
     }
     calendarApi?.changeView(viewType);
     setCurrentView(viewType);
     setIsShowSideBar(false);
-  }
+  };
+
+  const handleDragStartEvent = (info: EventDragStartArg) => {
+    console.debug("dragStart: ", info);
+  };
+
+  const handleDragStopEvent = (info: EventDragStopArg) => {
+    console.debug("dragStop", info);
+  };
+
+  const handleEventDrop = (info: EventDropArg) => {
+    console.debug("eventDrop: ", info);
+  };
 
   return (
     <div>
@@ -80,10 +96,16 @@ export const Top: React.VFC = () => {
       <FullCalendar
         ref={calendarRef}
         locale="ja"
+        droppable
+        editable
         headerToolbar={false}
-        plugins={[dayGridPlugin, listPlugin]}
+        plugins={[dayGridPlugin, listPlugin, interactionPlugin]}
         initialView={currentView}
         events={events}
+        eventDragStart={(info) => handleDragStartEvent(info)}
+        eventDragStop={(info) => handleDragStopEvent(info)}
+        eventDrop={(info) => handleEventDrop(info)}
+        // drop={(dropEvent) => console.debug("drop: ", dropEvent)}
       />
       {isShowSideBar && (
         <SideBar
@@ -94,5 +116,5 @@ export const Top: React.VFC = () => {
         />
       )}
     </div>
-  )
-}
+  );
+};
