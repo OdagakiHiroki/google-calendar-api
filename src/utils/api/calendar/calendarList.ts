@@ -1,8 +1,9 @@
 import { execReq } from "utils/gapi";
+import { getIsSignedIn } from "utils/api/auth/auth";
 
 const getCalendarList = async () => {
-  const signInRes = await window.gapi.auth2.getAuthInstance().signIn();
-  if (!signInRes) {
+  const isSignedIn = await getIsSignedIn();
+  if (!isSignedIn) {
     return;
   }
   const req = window.gapi.client.calendar.calendarList.list();
