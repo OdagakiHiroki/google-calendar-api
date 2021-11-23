@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import FullCalendar, { CalendarApi, EventDropArg, DayCellContentArg, DayHeaderContentArg } from "@fullcalendar/react";
+import FullCalendar, {
+  CalendarApi,
+  EventDropArg,
+  DayCellContentArg,
+  DayHeaderContentArg,
+} from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from "@fullcalendar/list";
@@ -98,10 +103,21 @@ export const Top: React.VFC = () => {
   const formatDayHeaderContent = (content: DayHeaderContentArg) => {
     // 月表示の際の日付フォーマット
     if (["timeGridWeek"].includes(currentView)) {
-      // content.text = formatDate(content.date, "dd(eee)");
-      return renderWeeklyDayHeader(content);
+      return renderWeeklyDayHeader(content.date);
+    }
+    if (["timeGridDay"].includes(currentView)) {
+      return ""
     }
   };
+
+  const formatAllDayContent = () => {
+    if (["timeGridWeek"].includes(currentView)) {
+      return "";
+    }
+    if (["timeGridDay"].includes(currentView)) {
+      return renderWeeklyDayHeader(currentDate);
+    }
+  }
 
   // const handleClickGetCalendarList = async () => {
   //   const { calendarList } = await getCalendarList();
@@ -113,9 +129,9 @@ export const Top: React.VFC = () => {
   //   console.debug(eventList);
   // }
 
-  const renderWeeklyDayHeader = (dayHeaderContent: DayHeaderContentArg) => {
-    const day = formatDate(dayHeaderContent.date, "eee");
-    const date = formatDate(dayHeaderContent.date, "dd");
+  const renderWeeklyDayHeader = (dateObj: Date) => {
+    const day = formatDate(dateObj, "eee");
+    const date = formatDate(dateObj, "dd");
     return (
       <>
         <div>{day}</div>
@@ -142,7 +158,7 @@ export const Top: React.VFC = () => {
         droppable
         editable
         headerToolbar={false}
-        allDayText="終日"
+        allDayContent={formatAllDayContent}
         dayCellContent={(content) => formatDayCellContent(content)}
         dayHeaderContent={(content) => formatDayHeaderContent(content)}
         height={`calc(100% - ${headerHeight})`}
