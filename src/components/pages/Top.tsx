@@ -123,6 +123,7 @@ export const Top: React.VFC = () => {
         droppable
         editable
         headerToolbar={false}
+        allDayText="終日"
         dayCellContent={(content) => formatDayCellContent(content)}
         height={`calc(100% - ${headerHeight})`}
         plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
