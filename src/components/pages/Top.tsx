@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import FullCalendar, { CalendarApi, EventDropArg, DayCellContentArg } from "@fullcalendar/react";
+import FullCalendar, { CalendarApi, EventDropArg, DayCellContentArg, DayHeaderContentArg } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from "@fullcalendar/list";
@@ -90,8 +90,16 @@ export const Top: React.VFC = () => {
 
   const formatDayCellContent = (content: DayCellContentArg) => {
     // 月表示の際の日付フォーマット
-    if (currentView === "dayGridMonth") {
+    if (["dayGridMonth"].includes(currentView)) {
       content.dayNumberText = formatDate(content.date, "d");
+    }
+  };
+
+  const formatDayHeaderContent = (content: DayHeaderContentArg) => {
+    // 月表示の際の日付フォーマット
+    if (["timeGridWeek"].includes(currentView)) {
+      // content.text = formatDate(content.date, "dd(eee)");
+      return renderWeeklyDayHeader(content);
     }
   };
 
@@ -104,6 +112,17 @@ export const Top: React.VFC = () => {
   //   const { eventList } = await getEventList({ calendarId });
   //   console.debug(eventList);
   // }
+
+  const renderWeeklyDayHeader = (dayHeaderContent: DayHeaderContentArg) => {
+    const day = formatDate(dayHeaderContent.date, "eee");
+    const date = formatDate(dayHeaderContent.date, "dd");
+    return (
+      <>
+        <div>{day}</div>
+        <div>{date}</div>
+      </>
+    )
+  }
 
   return (
     <>
@@ -125,6 +144,7 @@ export const Top: React.VFC = () => {
         headerToolbar={false}
         allDayText="終日"
         dayCellContent={(content) => formatDayCellContent(content)}
+        dayHeaderContent={(content) => formatDayHeaderContent(content)}
         height={`calc(100% - ${headerHeight})`}
         plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
         initialView={currentView}
