@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import FullCalendar, { CalendarApi, EventDropArg } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin, {
   EventDragStartArg,
@@ -113,7 +114,7 @@ export const Top: React.VFC = () => {
         droppable
         editable
         headerToolbar={false}
-        plugins={[dayGridPlugin, listPlugin, interactionPlugin]}
+        plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
         initialView={currentView}
         events={events}
         eventDragStart={(info) => handleDragStartEvent(info)}
@@ -124,8 +125,8 @@ export const Top: React.VFC = () => {
       {isShowSideBar && (
         <SideBar
           handleScheduleClick={(e) => changeView(e, "listYear")}
-          handleDateClick={(e) => changeView(e, "dayGridDay")}
-          handleWeekClick={(e) => changeView(e, "dayGridWeek")}
+          handleDateClick={(e) => changeView(e, "timeGridDay")}
+          handleWeekClick={(e) => changeView(e, "timeGridWeek")}
           handleMonthClick={(e) => changeView(e, "dayGridMonth")}
         />
       )}
