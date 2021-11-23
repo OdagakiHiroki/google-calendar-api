@@ -86,8 +86,8 @@ export const Top: React.VFC = () => {
   };
 
   const handleClickGetCalendarList = async () => {
-    const res = await getCalendarList();
-    console.debug(res);
+    const { calendarList } = await getCalendarList();
+    console.debug(calendarList);
   };
 
   return (
