@@ -9,6 +9,8 @@ import interactionPlugin, {
 import { formatDate } from "utils";
 import { Header } from "components/organisms/Header";
 import { SideBar } from "components/organisms/SideBar";
+import { getCalendarList } from "utils/api/calendar/calendarList";
+import { getEventList } from "utils/api/calendar/events";
 import { useGetEvents } from "hooks";
 
 export const Top: React.VFC = () => {
@@ -84,6 +86,16 @@ export const Top: React.VFC = () => {
     console.debug("eventDrop: ", info);
   };
 
+  const handleClickGetCalendarList = async () => {
+    const { calendarList } = await getCalendarList();
+    console.debug(calendarList);
+  };
+
+  const handleClickGetEventList = async ({ calendarId }: { calendarId: string }) => {
+    const { eventList } = await getEventList({ calendarId });
+    console.debug(eventList);
+  }
+
   return (
     <div>
       <Header
@@ -92,7 +104,9 @@ export const Top: React.VFC = () => {
         handleClickPrev={prevClick}
         handleClickNext={nextClick}
       />
-      <div onClick={addEvent}>header</div>
+      <button onClick={addEvent}>イベント追加</button>
+      <button onClick={handleClickGetCalendarList}>カレンダー一覧取得</button>
+      <button onClick={() => handleClickGetEventList({ calendarId: "" })}>イベント一覧取得</button>
       <FullCalendar
         ref={calendarRef}
         locale="ja"

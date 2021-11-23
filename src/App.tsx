@@ -1,31 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BeforeRenderElement } from "BeforeRenderElement";
 import { Top } from "components/pages/Top";
+import { Login } from "components/pages/Login";
 import './App.css';
 
 export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Top />} />
+        <Route path="/login" element={<BeforeRenderElement path="/login" element={<Login />}/>} />
+        <Route path="/" element={<BeforeRenderElement path="/" element={<Top />} requiresAuth={true} />} />
       </Routes>
     </BrowserRouter>
   );
-  // return (
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <img src={logo} className="App-logo" alt="logo" />
-  //       <p>
-  //         Edit <code>src/App.tsx</code> and save to reload.
-  //       </p>
-  //       <a
-  //         className="App-link"
-  //         href="https://reactjs.org"
-  //         target="_blank"
-  //         rel="noopener noreferrer"
-  //       >
-  //         Learn React
-  //       </a>
-  //     </header>
-  //   </div>
-  // );
 }

@@ -1,9 +1,71 @@
-export const useGetEvents = () => {
-  return [
-    { title: "event1", start: "2021-11-08", end: "2021-11-09" },
-    { title: "event2", start: "2021-11-09", end: "2021-11-11" },
-    { title: "event3", start: "2021-11-11", end: "2021-11-11" }
-  ]
+import { useState, useEffect } from "react";
+import { getCalendarList } from "utils/api/calendar/calendarList";
+import { getEventList } from "utils/api/calendar/events";
+
+type Event = { title: string; start: string; end: string };
+type UseGetEvents = () => Event[]
+
+export const useGetCalendarList = () => {
+  const [calendarList, setCalendarList] = useState([]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    (async () => {
+      const { calendarList } = await getCalendarList();
+      if (mounted) {
+        setCalendarList(calendarList);
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  return calendarList;
+}
+
+export const useGetEvents: UseGetEvents = () => {
+  const calendarList = useGetCalendarList();
+  const [events, setEvents] = useState<Event[]>([]);
+
+  useEffect(() => {
+    let mounted = true;
+    if (calendarList.length === 0) {
+      return;
+    }
+
+    (async () => {
+      const events = await Promise.all(
+        calendarList.map(async (calendar: any) => {
+          const { eventList } = await getEventList({ calendarId: calendar.id });
+          return eventList.reduce((events, currentEvent) => {
+            const { summary, start, end } = currentEvent;
+            if (!start || !end) {
+              return events;
+            }
+            events.push({
+              title: summary,
+              start: start.date ?? start.dateTime,
+              end: end.date ?? end.dateTime,
+              calendarId: calendar.id,
+            });
+            return events;
+          }, []);
+        }, [])
+      );
+      if (mounted) {
+        setEvents(events.flat());
+      }
+    })();
+
+    return () => {
+      mounted = false;
+    };
+  }, [calendarList]);
+
+  return events;
 }
 
 // NOTE: for react-big-calendar
