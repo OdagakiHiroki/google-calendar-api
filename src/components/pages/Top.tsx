@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import FullCalendar, { CalendarApi, EventDropArg } from "@fullcalendar/react";
+import FullCalendar, { CalendarApi, EventDropArg, DayCellContentArg } from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from "@fullcalendar/list";
@@ -88,6 +88,13 @@ export const Top: React.VFC = () => {
     console.debug("eventDrop: ", info);
   };
 
+  const formatDayCellContent = (content: DayCellContentArg) => {
+    // 月表示の際の日付フォーマット
+    if (currentView === "dayGridMonth") {
+      content.dayNumberText = formatDate(content.date, "d");
+    }
+  };
+
   // const handleClickGetCalendarList = async () => {
   //   const { calendarList } = await getCalendarList();
   //   console.debug(calendarList);
@@ -116,6 +123,7 @@ export const Top: React.VFC = () => {
         droppable
         editable
         headerToolbar={false}
+        dayCellContent={(content) => formatDayCellContent(content)}
         height={`calc(100% - ${headerHeight})`}
         plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
         initialView={currentView}
