@@ -10,12 +10,13 @@ import interactionPlugin, {
 import { formatDate } from "utils";
 import { Header } from "components/organisms/Header";
 import { SideBar } from "components/organisms/SideBar";
-import { getCalendarList } from "utils/api/calendar/calendarList";
-import { getEventList } from "utils/api/calendar/events";
+// import { getCalendarList } from "utils/api/calendar/calendarList";
+// import { getEventList } from "utils/api/calendar/events";
 import { useGetEvents } from "hooks";
 
 export const Top: React.VFC = () => {
   const events = useGetEvents();
+  const headerHeight = "50px";
 
   const calendarRef = useRef<FullCalendar>(null);
   const [calendarApi, setCalendarApi] = useState<CalendarApi>();
@@ -35,16 +36,16 @@ export const Top: React.VFC = () => {
     setCurrentDate(calendarApi?.getDate());
   }, [calendarApi]);
 
-  const addEvent = () => {
-    if (!calendarApi) {
-      return;
-    }
-    calendarApi?.addEvent({
-      title: "event",
-      start: "2021-11-10",
-      end: "2021-11-11",
-    });
-  };
+  // const addEvent = () => {
+  //   if (!calendarApi) {
+  //     return;
+  //   }
+  //   calendarApi?.addEvent({
+  //     title: "event",
+  //     start: "2021-11-10",
+  //     end: "2021-11-11",
+  //   });
+  // };
 
   const menuClick = () => {
     setIsShowSideBar(!isShowSideBar);
@@ -87,33 +88,35 @@ export const Top: React.VFC = () => {
     console.debug("eventDrop: ", info);
   };
 
-  const handleClickGetCalendarList = async () => {
-    const { calendarList } = await getCalendarList();
-    console.debug(calendarList);
-  };
+  // const handleClickGetCalendarList = async () => {
+  //   const { calendarList } = await getCalendarList();
+  //   console.debug(calendarList);
+  // };
 
-  const handleClickGetEventList = async ({ calendarId }: { calendarId: string }) => {
-    const { eventList } = await getEventList({ calendarId });
-    console.debug(eventList);
-  }
+  // const handleClickGetEventList = async ({ calendarId }: { calendarId: string }) => {
+  //   const { eventList } = await getEventList({ calendarId });
+  //   console.debug(eventList);
+  // }
 
   return (
-    <div>
+    <>
       <Header
         title={formatDate(currentDate, "yyyy年MM月dd日")}
+        height={headerHeight}
         handleClickMenu={menuClick}
         handleClickPrev={prevClick}
         handleClickNext={nextClick}
       />
-      <button onClick={addEvent}>イベント追加</button>
+      {/* <button onClick={addEvent}>イベント追加</button>
       <button onClick={handleClickGetCalendarList}>カレンダー一覧取得</button>
-      <button onClick={() => handleClickGetEventList({ calendarId: "" })}>イベント一覧取得</button>
+      <button onClick={() => handleClickGetEventList({ calendarId: "" })}>イベント一覧取得</button> */}
       <FullCalendar
         ref={calendarRef}
         locale="ja"
         droppable
         editable
         headerToolbar={false}
+        height={`calc(100% - ${headerHeight})`}
         plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
         initialView={currentView}
         events={events}
@@ -130,6 +133,6 @@ export const Top: React.VFC = () => {
           handleMonthClick={(e) => changeView(e, "dayGridMonth")}
         />
       )}
-    </div>
+    </>
   );
 };

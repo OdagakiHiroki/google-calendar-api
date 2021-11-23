@@ -12,6 +12,9 @@ const GlobalStyle = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
   }
+  #root {
+    height: 100vh;
+  }
 `;
 
 export const App = () => {
