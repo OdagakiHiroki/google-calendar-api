@@ -1,7 +1,7 @@
 import { thenReq } from "utils/gapi";
 import { getIsSignedIn } from "utils/api/auth/auth";
 
-const getCalendarList = async () => {
+export const getCalendarList = async () => {
   try {
     const isSignedIn = await getIsSignedIn();
     if (!isSignedIn) {
@@ -18,5 +18,3 @@ const getCalendarList = async () => {
     return { nextSyncToken: null, nextPageToken: null, calendarList: [] };
   }
 };
-
-export { getCalendarList };
