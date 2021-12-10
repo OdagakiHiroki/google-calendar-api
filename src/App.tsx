@@ -1,13 +1,27 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import reset from "styled-reset";
+import { createGlobalStyle } from "styled-components";
 import { BeforeRenderElement } from "BeforeRenderElement";
 import { Top } from "components/pages/Top";
 import { Mobi } from "components/pages/Mobi";
 import { Login } from "components/pages/Login";
-import './App.css';
+
+const GlobalStyle = createGlobalStyle`
+  ${reset}
+  *, *::after, *::before {
+    box-sizing: border-box;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+  }
+  #root {
+    height: 100vh;
+  }
+`;
 
 export const App = () => {
   return (
     <>
+      <GlobalStyle />
       <BrowserRouter>
         <Routes>
           <Route
@@ -38,4 +52,4 @@ export const App = () => {
       </BrowserRouter>
     </>
   );
-}
+};

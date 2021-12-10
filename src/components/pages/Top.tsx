@@ -1,6 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import FullCalendar, { CalendarApi, EventDropArg } from "@fullcalendar/react";
+import FullCalendar, {
+  CalendarApi,
+  EventDropArg,
+  DayCellContentArg,
+  DayHeaderContentArg,
+} from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
+import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from "@fullcalendar/list";
 import interactionPlugin, {
   EventDragStartArg,
@@ -9,12 +15,13 @@ import interactionPlugin, {
 import { formatDate } from "utils";
 import { Header } from "components/organisms/Header";
 import { SideBar } from "components/organisms/SideBar";
-import { getCalendarList } from "utils/api/calendar/calendarList";
-import { getEventList } from "utils/api/calendar/events";
+// import { getCalendarList } from "utils/api/calendar/calendarList";
+// import { getEventList } from "utils/api/calendar/events";
 import { useGetEvents } from "hooks";
 
 export const Top: React.VFC = () => {
   const events = useGetEvents();
+  const headerHeight = "50px";
 
   const calendarRef = useRef<FullCalendar>(null);
   const [calendarApi, setCalendarApi] = useState<CalendarApi>();
@@ -34,16 +41,16 @@ export const Top: React.VFC = () => {
     setCurrentDate(calendarApi?.getDate());
   }, [calendarApi]);
 
-  const addEvent = () => {
-    if (!calendarApi) {
-      return;
-    }
-    calendarApi?.addEvent({
-      title: "event",
-      start: "2021-11-10",
-      end: "2021-11-11",
-    });
-  };
+  // const addEvent = () => {
+  //   if (!calendarApi) {
+  //     return;
+  //   }
+  //   calendarApi?.addEvent({
+  //     title: "event",
+  //     start: "2021-11-10",
+  //     end: "2021-11-11",
+  //   });
+  // };
 
   const menuClick = () => {
     setIsShowSideBar(!isShowSideBar);
@@ -86,34 +93,76 @@ export const Top: React.VFC = () => {
     console.debug("eventDrop: ", info);
   };
 
-  const handleClickGetCalendarList = async () => {
-    const { calendarList } = await getCalendarList();
-    console.debug(calendarList);
+  const formatDayCellContent = (content: DayCellContentArg) => {
+    // 月表示の際の日付フォーマット
+    if (["dayGridMonth"].includes(currentView)) {
+      content.dayNumberText = formatDate(content.date, "d");
+    }
   };
 
-  const handleClickGetEventList = async ({ calendarId }: { calendarId: string }) => {
-    const { eventList } = await getEventList({ calendarId });
-    console.debug(eventList);
+  const formatDayHeaderContent = (content: DayHeaderContentArg) => {
+    // 月表示の際の日付フォーマット
+    if (["timeGridWeek"].includes(currentView)) {
+      return renderWeeklyDayHeader(content.date);
+    }
+    if (["timeGridDay"].includes(currentView)) {
+      return ""
+    }
+  };
+
+  const formatAllDayContent = () => {
+    if (["timeGridWeek"].includes(currentView)) {
+      return "";
+    }
+    if (["timeGridDay"].includes(currentView)) {
+      return renderWeeklyDayHeader(currentDate);
+    }
+  }
+
+  // const handleClickGetCalendarList = async () => {
+  //   const { calendarList } = await getCalendarList();
+  //   console.debug(calendarList);
+  // };
+
+  // const handleClickGetEventList = async ({ calendarId }: { calendarId: string }) => {
+  //   const { eventList } = await getEventList({ calendarId });
+  //   console.debug(eventList);
+  // }
+
+  const renderWeeklyDayHeader = (dateObj: Date) => {
+    const day = formatDate(dateObj, "eee");
+    const date = formatDate(dateObj, "dd");
+    return (
+      <>
+        <div>{day}</div>
+        <div>{date}</div>
+      </>
+    )
   }
 
   return (
-    <div>
+    <>
       <Header
         title={formatDate(currentDate, "yyyy年MM月dd日")}
+        height={headerHeight}
         handleClickMenu={menuClick}
         handleClickPrev={prevClick}
         handleClickNext={nextClick}
       />
-      <button onClick={addEvent}>イベント追加</button>
+      {/* <button onClick={addEvent}>イベント追加</button>
       <button onClick={handleClickGetCalendarList}>カレンダー一覧取得</button>
-      <button onClick={() => handleClickGetEventList({ calendarId: "" })}>イベント一覧取得</button>
+      <button onClick={() => handleClickGetEventList({ calendarId: "" })}>イベント一覧取得</button> */}
       <FullCalendar
         ref={calendarRef}
         locale="ja"
         droppable
         editable
         headerToolbar={false}
-        plugins={[dayGridPlugin, listPlugin, interactionPlugin]}
+        allDayContent={formatAllDayContent}
+        dayCellContent={(content) => formatDayCellContent(content)}
+        dayHeaderContent={(content) => formatDayHeaderContent(content)}
+        height={`calc(100% - ${headerHeight})`}
+        plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
         initialView={currentView}
         events={events}
         eventDragStart={(info) => handleDragStartEvent(info)}
@@ -124,11 +173,11 @@ export const Top: React.VFC = () => {
       {isShowSideBar && (
         <SideBar
           handleScheduleClick={(e) => changeView(e, "listYear")}
-          handleDateClick={(e) => changeView(e, "dayGridDay")}
-          handleWeekClick={(e) => changeView(e, "dayGridWeek")}
+          handleDateClick={(e) => changeView(e, "timeGridDay")}
+          handleWeekClick={(e) => changeView(e, "timeGridWeek")}
           handleMonthClick={(e) => changeView(e, "dayGridMonth")}
         />
       )}
-    </div>
+    </>
   );
 };
