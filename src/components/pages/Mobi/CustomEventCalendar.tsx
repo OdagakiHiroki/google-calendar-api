@@ -55,6 +55,25 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
     );
   }, []);
 
+  // NOTE: Taking over the listing, render custom agenda,
+  const renderCustomAgenda = useCallback((data) => {
+    console.debug("renderCustomAgendaData: ", data);
+    return (
+      <div>
+        {/* TODO: type definition */}
+        {data.map((day: any) => (
+          <ul key={day.timestamp}>
+            <li>{day.date}</li>
+            {/* TODO: type definition */}
+            {day.events.map((event: any) => (
+              <li key={event.id}>{event.title}</li>
+            ))}
+          </ul>
+        ))}
+      </div>
+    );
+  }, []);
+
   return (
     <Eventcalendar
       {...props}
@@ -62,6 +81,7 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
       renderEventContent={renderCustomEvent}
       renderLabelContent={renderCustomLabel}
       renderScheduleEventContent={renderCustomScheduleEvent}
+      renderAgenda={renderCustomAgenda}
     />
   )
 }
