@@ -102,6 +102,8 @@ export const Mobi = () => {
         locale={localeJa}
         view={view}
         data={myEvents}
+        dragToMove={true}
+        dragToResize={true}
       />
     </>
   );

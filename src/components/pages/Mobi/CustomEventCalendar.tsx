@@ -59,9 +59,9 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
     <Eventcalendar
       {...props}
       view={view}
-      renderEvent={renderCustomEvent}
-      renderLabel={renderCustomLabel}
-      renderScheduleEvent={renderCustomScheduleEvent}
+      renderEventContent={renderCustomEvent}
+      renderLabelContent={renderCustomLabel}
+      renderScheduleEventContent={renderCustomScheduleEvent}
     />
   )
 }
