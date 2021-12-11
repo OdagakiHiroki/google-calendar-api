@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Eventcalendar, localeJa, MbscCalendarEvent } from "@mobiscroll/react"
+import { Eventcalendar, localeJa, MbscCalendarEvent, MbscEventcalendarView } from "@mobiscroll/react"
 import '@mobiscroll/react/dist/css/mobiscroll.scss';
 
 export const Mobi = () => {
@@ -14,13 +14,27 @@ export const Mobi = () => {
           repeat: 'daily',
           count: 5,
           interval: 1
+      },
+      recurringException: ['2021-12-21', '2021-12-19'],
+      recurringExceptionRule: {
+        repeat: 'monthly',
+        day: 20,
       }
     }
   ]);
 
+  const view: MbscEventcalendarView = {
+    calendar: { type: "month" },
+    agenda: { type: "week" },
+    // schedule: {
+    //   type: 'week',
+    // }
+  }
+
   return (
     <Eventcalendar
       locale={localeJa}
+      view={view}
       data={myEvents}
     />
   );
