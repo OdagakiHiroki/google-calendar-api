@@ -2,26 +2,41 @@ import React, { useState, useCallback } from 'react'
 import { Eventcalendar, localeJa, MbscCalendarEvent, MbscEventcalendarView } from "@mobiscroll/react"
 import '@mobiscroll/react/dist/css/mobiscroll.scss';
 import { ExternalDragEvent } from "components/pages/Mobi/ExternalDragEvent";
+import { CustomEventCalendar } from "components/pages/Mobi/CustomEventCalendar";
 
 export const Mobi = () => {
   const [myEvents, setMyEvents] = useState<MbscCalendarEvent[]>([
-    { start: new Date(), title: "Today's event", color: "green" },
-    { start: new Date(2021, 11, 9, 9,0), end: new Date(2021,11,9,13,0), title: "Multi day event" },
+    {
+      start: new Date(),
+      title: "Today's event",
+      color: "green",
+      description: "機能確認中",
+      location: "自宅"
+    },
+    {
+      start: new Date(2021, 11, 9, 9, 0),
+      end: new Date(2021, 11, 10, 13, 0),
+      title: "Multi day event",
+      description: "複数日イベント",
+      location: "イベント会場"
+    },
     {
       start: new Date(2021, 11, 18, 9, 0),
       end: new Date(2021, 11, 18, 17, 0),
-      title: 'Repeat every 2 days 5 times',
+      title: "Repeat every 2 days 5 times",
       recurring: {
-          repeat: 'daily',
-          count: 5,
-          interval: 1
+        repeat: "daily",
+        count: 5,
+        interval: 1,
       },
-      recurringException: ['2021-12-21', '2021-12-19'],
+      recurringException: ["2021-12-21", "2021-12-19"],
       recurringExceptionRule: {
-        repeat: 'monthly',
+        repeat: "monthly",
         day: 20,
-      }
-    }
+      },
+      description: "繰り返しイベント",
+      location: "会社"
+    },
   ]);
   const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -34,7 +49,7 @@ export const Mobi = () => {
   }
 
   const invalidRange = [
-    // { 
+    // {
     //   // specify invalid date ranges using ISO 8601 strings
     //   start: "2021-12-24T18:00",
     //   end: "2021-12-25T23:30",
@@ -82,6 +97,11 @@ export const Mobi = () => {
         dragToResize={true}
         externalDrop={true}
         onSelectedDateChange={onSelectedDateChange}
+      />
+      <CustomEventCalendar
+        locale={localeJa}
+        view={view}
+        data={myEvents}
       />
     </>
   );
