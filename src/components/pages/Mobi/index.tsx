@@ -33,6 +33,36 @@ export const Mobi = () => {
     // }
   }
 
+  const invalidRange = [
+    // { 
+    //   // specify invalid date ranges using ISO 8601 strings
+    //   start: "2021-12-24T18:00",
+    //   end: "2021-12-25T23:30",
+    //   title: "X'mas",
+    // },
+    // {
+    //   // specify invalid date ranges using Date objects
+    //   allDay: true,
+    //   start: new Date(2021, 11, 28),
+    //   end: new Date(2022, 0, 3),
+    //   title: "お正月",
+    // },
+    {
+      // specify invalid time ranges only
+      start: "12:00",
+      end: "13:00",
+      recurring: { repeat: "weekly", weekDays: "MO,TU,WE,TH,FR" },
+      title: "Lunch break",
+    },
+    {
+      // disable weekends
+      recurring: {
+          repeat: "weekly",
+          weekDays: "SA,SU"
+      }
+    }
+  ]
+
   // 選択日付を変更した時のイベント
   const onSelectedDateChange = useCallback((event, inst) => {
     console.debug(event, inst);
@@ -47,6 +77,7 @@ export const Mobi = () => {
         view={view}
         data={myEvents}
         selectedDate={selectedDate}
+        invalid={invalidRange}
         dragToMove={true}
         dragToResize={true}
         externalDrop={true}
