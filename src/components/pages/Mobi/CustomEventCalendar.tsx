@@ -10,6 +10,14 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
     }
   }
 
+  const renderCustomHeader = useCallback(() => {
+    return (
+      <>
+        <p>customカレンダーヘッダー</p>
+      </>
+    );
+  }, []);
+
   // NOTE: For the agenda and popover
   const renderCustomEvent = useCallback((data) => {
     return (
@@ -78,6 +86,7 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
     <Eventcalendar
       {...props}
       view={view}
+      renderHeader={renderCustomHeader}
       renderEventContent={renderCustomEvent}
       renderLabelContent={renderCustomLabel}
       renderScheduleEventContent={renderCustomScheduleEvent}
