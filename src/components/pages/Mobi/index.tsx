@@ -93,6 +93,7 @@ export const Mobi = () => {
         data={myEvents}
         selectedDate={selectedDate}
         invalid={invalidRange}
+        clickToCreate={"double"}
         dragToMove={true}
         dragToResize={true}
         externalDrop={true}
