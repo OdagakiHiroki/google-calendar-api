@@ -1,5 +1,13 @@
 import React, { useCallback } from 'react'
-import { Eventcalendar, MbscEventcalendarOptions, MbscEventcalendarView } from "@mobiscroll/react"
+import {
+  Eventcalendar,
+  MbscEventcalendarOptions,
+  MbscEventcalendarView,
+  CalendarPrev,
+  CalendarNext,
+  CalendarToday,
+  CalendarNav
+} from "@mobiscroll/react";
 
 export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) => {
   const view: MbscEventcalendarView = {
@@ -13,7 +21,11 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
   const renderCustomHeader = useCallback(() => {
     return (
       <>
+        <CalendarNav />
         <p>customカレンダーヘッダー</p>
+        <CalendarPrev />
+        <CalendarToday />
+        <CalendarNext />
       </>
     );
   }, []);
