@@ -4,7 +4,7 @@ import { Eventcalendar, MbscEventcalendarOptions, MbscEventcalendarView } from "
 export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) => {
   const view: MbscEventcalendarView = {
     calendar: { type: "month" },
-    agenda: { type: "week" },
+    // agenda: { type: "week" },
   }
 
   // NOTE: For the agenda and popover
@@ -20,11 +20,27 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
     );
   }, []);
 
+  // NOTE: For event labels in the calendar and all-day events in the scheduler
+  // 月別カレンダーに表示するラベルが変化
+  const renderCustomLabel = useCallback((data) => {
+    return (
+      <>
+        <div>{data.id}</div>
+        <div>{data.start}</div>
+        <div>{data.end}</div>
+        <div>{data.isMultiDay ? "true" : "false"}</div>
+        <div>{data.original.description}</div>
+        <div>{data.original.location}</div>
+      </>
+    );
+  }, []);
+
   return (
     <Eventcalendar
       {...props}
       view={view}
       renderEvent={renderCustomEvent}
+      renderLabel={renderCustomLabel}
     />
   )
 }
