@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
 import { Eventcalendar, localeJa, MbscCalendarEvent, MbscEventcalendarView } from "@mobiscroll/react"
 import '@mobiscroll/react/dist/css/mobiscroll.scss';
 
@@ -22,20 +22,29 @@ export const Mobi = () => {
       }
     }
   ]);
+  const [selectedDate, setSelectedDate] = useState(new Date());
 
   const view: MbscEventcalendarView = {
     calendar: { type: "month" },
-    agenda: { type: "week" },
+    // agenda: { type: "week" },
     // schedule: {
     //   type: 'week',
     // }
   }
+
+  // 選択日付を変更した時のイベント
+  const onSelectedDateChange = useCallback((event, inst) => {
+    console.debug(event, inst);
+    setSelectedDate(event.date);
+  }, []);
 
   return (
     <Eventcalendar
       locale={localeJa}
       view={view}
       data={myEvents}
+      selectedDate={selectedDate}
+      onSelectedDateChange={onSelectedDateChange}
     />
   );
 }
