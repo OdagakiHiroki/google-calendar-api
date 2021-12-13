@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react'
-import { Eventcalendar, localeJa, MbscCalendarEvent, MbscEventcalendarView } from "@mobiscroll/react"
+import { Eventcalendar, localeJa, MbscCalendarEvent, MbscEventcalendarView, MbscNewEventData } from "@mobiscroll/react"
 import '@mobiscroll/react/dist/css/mobiscroll.scss';
 import { ExternalDragEvent } from "components/pages/Mobi/ExternalDragEvent";
 import { CustomEventCalendar } from "components/pages/Mobi/CustomEventCalendar";
@@ -78,6 +78,16 @@ export const Mobi = () => {
     }
   ]
 
+  // 新規予定作成時のデフォルト値設定
+  const newEventData: (
+    args: MbscNewEventData
+  ) => MbscCalendarEvent = (args) => {
+    return {
+      color: "orange",
+      title: "new create event!",
+    };
+  };
+
   // 選択日付を変更した時のイベント
   const onSelectedDateChange = useCallback((event, inst) => {
     console.debug(event, inst);
@@ -94,9 +104,11 @@ export const Mobi = () => {
         selectedDate={selectedDate}
         invalid={invalidRange}
         clickToCreate={"double"}
+        dragToCreate={true}
         dragToMove={true}
         dragToResize={true}
         externalDrop={true}
+        extendDefaultEvent={newEventData}
         onSelectedDateChange={onSelectedDateChange}
       />
       <CustomEventCalendar
