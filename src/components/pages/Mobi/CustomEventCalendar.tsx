@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback } from "react";
 import {
   Eventcalendar,
   MbscEventcalendarOptions,
@@ -6,10 +6,12 @@ import {
   CalendarPrev,
   CalendarNext,
   CalendarToday,
-  CalendarNav
+  CalendarNav,
 } from "@mobiscroll/react";
 
-export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) => {
+export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (
+  props
+) => {
   const view: MbscEventcalendarView = {
     // calendar: { type: "month" },
     // agenda: { type: "week" },
@@ -17,9 +19,9 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
     //   type: "week"
     // },
     timeline: {
-      type: "week"
-    }
-  }
+      type: "week",
+    },
+  };
 
   const renderCustomHeader = useCallback(() => {
     return (
@@ -102,37 +104,41 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
     const date = day.date;
     return (
       <>
-        <div>{date.getDate()}({days[date.getDay()]})</div>
+        <div>
+          {date.getDate()}({days[date.getDay()]})
+        </div>
       </>
     );
   }, []);
 
   // custom resource
-  const renderCustomResource = useCallback(
-    (resource) => {
-      console.debug(resource);
-      return (
-        <>
-          <div>{resource.name}</div>
-          <p>{resource.description}</p>
-          <img src={resource.img} alt="" />
-        </>
-      )
-    },
-    [],
-  )
+  const renderCustomResource = useCallback((resource) => {
+    return (
+      <>
+        <div>{resource.name}</div>
+        <p>{resource.description}</p>
+        <img src={resource.img} alt="" />
+      </>
+    );
+  }, []);
 
   // TODO: find out where to displayed.
-  const renderCustomResourceHeader = useCallback(
-    () => {
-      return (
-        <>
-          <div>Resources</div>
-        </>
-      )
-    },
-    [],
-  )
+  const renderCustomResourceHeader = useCallback(() => {
+    return (
+      <>
+        <div>Resources</div>
+      </>
+    );
+  }, []);
+
+  // custom slot for timeline(slot must be set)
+  const renderCustomSlot = useCallback(() => {
+    return (
+      <>
+        <div>custom slot</div>
+      </>
+    );
+  }, []);
 
   return (
     <Eventcalendar
@@ -146,6 +152,17 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
       renderDay={renderCustomDay}
       renderResource={renderCustomResource}
       renderResourceHeader={renderCustomResourceHeader}
+      renderSlot={renderCustomSlot}
+      slots={[
+        {
+          id: 1,
+          name: "Morning shift",
+        },
+        {
+          id: 2,
+          name: "Afternoon shift",
+        },
+      ]}
     />
-  )
-}
+  );
+};
