@@ -1,5 +1,12 @@
 import React, { useState, useCallback } from 'react'
-import { Eventcalendar, localeJa, MbscCalendarEvent, MbscEventcalendarView, MbscNewEventData } from "@mobiscroll/react"
+import {
+  Eventcalendar,
+  localeJa,
+  MbscCalendarEvent,
+  MbscEventcalendarView,
+  MbscNewEventData,
+} from "@mobiscroll/react";
+import { MbscCalendarLabel } from "@mobiscroll/react/dist/src/core/shared/calendar-view/calendar-view";
 import '@mobiscroll/react/dist/css/mobiscroll.scss';
 import { ExternalDragEvent } from "components/pages/Mobi/ExternalDragEvent";
 import { CustomEventCalendar } from "components/pages/Mobi/CustomEventCalendar";
@@ -94,6 +101,19 @@ export const Mobi = () => {
     setSelectedDate(event.date);
   }, []);
 
+  const labels: MbscCalendarLabel[] = [
+    {
+      start: new Date(2021, 11, 22),
+      end: new Date(2021, 11, 23),
+      text: "Conference",
+      color: "red",
+    },
+    {
+      text: "Christmasttt",
+      recurring: { repeat: "yearly", month: 12, day: 24 },
+    },
+  ];
+
   return (
     <>
       <ExternalDragEvent />
@@ -108,6 +128,7 @@ export const Mobi = () => {
         dragToMove={true}
         dragToResize={true}
         externalDrop={true}
+        labels={labels}
         extendDefaultEvent={newEventData}
         onSelectedDateChange={onSelectedDateChange}
       />
