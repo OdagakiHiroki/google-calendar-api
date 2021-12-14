@@ -145,10 +145,11 @@ export const Mobi = () => {
         dragToMove={true}
         dragToResize={true}
         externalDrop={true}
+        showEventTooltip={false}
         // labels={labels}
-        marked={marked}
-        max={new Date(2021, 11, 27)}
-        min={new Date(2021, 11, 20)}
+        // marked={marked}
+        // max={new Date(2021, 11, 27)}
+        // min={new Date(2021, 11, 20)}
         extendDefaultEvent={newEventData}
         onSelectedDateChange={onSelectedDateChange}
       />
