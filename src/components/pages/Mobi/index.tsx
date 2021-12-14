@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback } from "react";
 import {
   Eventcalendar,
   localeJa,
@@ -6,8 +6,11 @@ import {
   MbscEventcalendarView,
   MbscNewEventData,
 } from "@mobiscroll/react";
-import { MbscCalendarLabel, MbscCalendarMarked } from "@mobiscroll/react/dist/src/core/shared/calendar-view/calendar-view";
-import '@mobiscroll/react/dist/css/mobiscroll.scss';
+import {
+  MbscCalendarLabel,
+  MbscCalendarMarked,
+} from "@mobiscroll/react/dist/src/core/shared/calendar-view/calendar-view";
+import "@mobiscroll/react/dist/css/mobiscroll.scss";
 import { ExternalDragEvent } from "components/pages/Mobi/ExternalDragEvent";
 import { CustomEventCalendar } from "components/pages/Mobi/CustomEventCalendar";
 
@@ -18,14 +21,14 @@ export const Mobi = () => {
       title: "Today's event",
       color: "green",
       description: "機能確認中",
-      location: "自宅"
+      location: "自宅",
     },
     {
       start: new Date(2021, 11, 9, 9, 0),
       end: new Date(2021, 11, 10, 13, 0),
       title: "Multi day event",
       description: "複数日イベント",
-      location: "イベント会場"
+      location: "イベント会場",
     },
     {
       start: new Date(2021, 11, 18, 9, 0),
@@ -42,7 +45,7 @@ export const Mobi = () => {
         day: 20,
       },
       description: "繰り返しイベント",
-      location: "会社"
+      location: "会社",
     },
   ]);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -53,7 +56,7 @@ export const Mobi = () => {
     // schedule: {
     //   type: 'week',
     // }
-  }
+  };
 
   const invalidRange = [
     // {
@@ -79,27 +82,11 @@ export const Mobi = () => {
     {
       // disable weekends
       recurring: {
-          repeat: "weekly",
-          weekDays: "SA,SU"
-      }
-    }
-  ]
-
-  // 新規予定作成時のデフォルト値設定
-  const newEventData: (
-    args: MbscNewEventData
-  ) => MbscCalendarEvent = (args) => {
-    return {
-      color: "orange",
-      title: "new create event!",
-    };
-  };
-
-  // 選択日付を変更した時のイベント
-  const onSelectedDateChange = useCallback((event, inst) => {
-    console.debug(event, inst);
-    setSelectedDate(event.date);
-  }, []);
+        repeat: "weekly",
+        weekDays: "SA,SU",
+      },
+    },
+  ];
 
   const labels: MbscCalendarLabel[] = [
     {
@@ -120,13 +107,29 @@ export const Mobi = () => {
     {
       start: new Date(2021, 11, 23),
       end: new Date(2021, 11, 24),
-      color: 'red'
+      color: "red",
     },
     {
-      color: 'green',
-      recurring: { repeat: 'yearly', month: 12, day: 24 }
-    }
-  ]
+      color: "green",
+      recurring: { repeat: "yearly", month: 12, day: 24 },
+    },
+  ];
+
+  // 新規予定作成時のデフォルト値設定
+  const newEventData: (args: MbscNewEventData) => MbscCalendarEvent = (
+    args
+  ) => {
+    return {
+      color: "orange",
+      title: "new create event!",
+    };
+  };
+
+  // 選択日付を変更した時のイベント
+  const onSelectedDateChange = useCallback((event, inst) => {
+    console.debug(event, inst);
+    setSelectedDate(event.date);
+  }, []);
 
   return (
     <>
@@ -144,6 +147,8 @@ export const Mobi = () => {
         externalDrop={true}
         // labels={labels}
         marked={marked}
+        max={new Date(2021, 11, 27)}
+        min={new Date(2021, 11, 20)}
         extendDefaultEvent={newEventData}
         onSelectedDateChange={onSelectedDateChange}
       />
@@ -156,4 +161,4 @@ export const Mobi = () => {
       />
     </>
   );
-}
+};
