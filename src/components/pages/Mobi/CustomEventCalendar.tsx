@@ -143,6 +143,8 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (
   return (
     <Eventcalendar
       {...props}
+      theme="material"
+      themeVariant="light"
       view={view}
       renderHeader={renderCustomHeader}
       renderEventContent={renderCustomEvent}
