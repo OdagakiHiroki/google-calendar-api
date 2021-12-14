@@ -6,7 +6,7 @@ import {
   MbscEventcalendarView,
   MbscNewEventData,
 } from "@mobiscroll/react";
-import { MbscCalendarLabel } from "@mobiscroll/react/dist/src/core/shared/calendar-view/calendar-view";
+import { MbscCalendarLabel, MbscCalendarMarked } from "@mobiscroll/react/dist/src/core/shared/calendar-view/calendar-view";
 import '@mobiscroll/react/dist/css/mobiscroll.scss';
 import { ExternalDragEvent } from "components/pages/Mobi/ExternalDragEvent";
 import { CustomEventCalendar } from "components/pages/Mobi/CustomEventCalendar";
@@ -114,6 +114,20 @@ export const Mobi = () => {
     },
   ];
 
+  const marked: MbscCalendarMarked[] = [
+    new Date(2021, 2, 15),
+    new Date(2021, 2, 22),
+    {
+      start: new Date(2021, 11, 23),
+      end: new Date(2021, 11, 24),
+      color: 'red'
+    },
+    {
+      color: 'green',
+      recurring: { repeat: 'yearly', month: 12, day: 24 }
+    }
+  ]
+
   return (
     <>
       <ExternalDragEvent />
@@ -128,7 +142,8 @@ export const Mobi = () => {
         dragToMove={true}
         dragToResize={true}
         externalDrop={true}
-        labels={labels}
+        // labels={labels}
+        marked={marked}
         extendDefaultEvent={newEventData}
         onSelectedDateChange={onSelectedDateChange}
       />
