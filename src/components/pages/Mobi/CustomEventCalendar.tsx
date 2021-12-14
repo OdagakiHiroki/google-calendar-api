@@ -12,9 +12,9 @@ import {
 export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) => {
   const view: MbscEventcalendarView = {
     calendar: { type: "month" },
-    // agenda: { type: "week" },
+    agenda: { type: "week" },
     schedule: {
-      allDay: true
+      type: "week"
     }
   }
 
@@ -98,13 +98,39 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
   const renderCustomDay = useCallback((day) => {
     const days = "日月火水木金土".split("");
     const date = day.date;
-    console.debug(day);
     return (
       <>
         <div>{date.getDate()}({days[date.getDay()]})</div>
       </>
     );
   }, []);
+
+  // custom resource
+  const renderCustomResource = useCallback(
+    (resource) => {
+      console.debug(resource);
+      return (
+        <>
+          <div>{resource.name}</div>
+          <p>{resource.description}</p>
+          <img src={resource.img} alt="" />
+        </>
+      )
+    },
+    [],
+  )
+
+  // TODO: find out where to displayed.
+  const renderCustomResourceHeader = useCallback(
+    () => {
+      return (
+        <>
+          <div>Resources</div>
+        </>
+      )
+    },
+    [],
+  )
 
   return (
     <Eventcalendar
@@ -116,6 +142,8 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
       renderScheduleEventContent={renderCustomScheduleEvent}
       renderAgenda={renderCustomAgenda}
       renderDay={renderCustomDay}
+      renderResource={renderCustomResource}
+      renderResourceHeader={renderCustomResourceHeader}
     />
   )
 }
