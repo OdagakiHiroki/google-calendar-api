@@ -11,9 +11,12 @@ import {
 
 export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) => {
   const view: MbscEventcalendarView = {
-    calendar: { type: "month" },
-    agenda: { type: "week" },
-    schedule: {
+    // calendar: { type: "month" },
+    // agenda: { type: "week" },
+    // schedule: {
+    //   type: "week"
+    // },
+    timeline: {
       type: "week"
     }
   }
@@ -77,7 +80,6 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
 
   // NOTE: Taking over the listing, render custom agenda,
   const renderCustomAgenda = useCallback((data) => {
-    console.debug("renderCustomAgendaData: ", data);
     return (
       <div>
         {/* TODO: type definition */}
