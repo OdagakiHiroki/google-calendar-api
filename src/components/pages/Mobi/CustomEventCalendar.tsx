@@ -94,6 +94,18 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
     );
   }, []);
 
+  // custom calendar day
+  const renderCustomDay = useCallback((day) => {
+    const days = "日月火水木金土".split("");
+    const date = day.date;
+    console.debug(day);
+    return (
+      <>
+        <div>{date.getDate()}({days[date.getDay()]})</div>
+      </>
+    );
+  }, []);
+
   return (
     <Eventcalendar
       {...props}
@@ -103,6 +115,7 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (props) 
       renderLabelContent={renderCustomLabel}
       renderScheduleEventContent={renderCustomScheduleEvent}
       renderAgenda={renderCustomAgenda}
+      renderDay={renderCustomDay}
     />
   )
 }
