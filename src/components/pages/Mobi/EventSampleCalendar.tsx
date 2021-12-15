@@ -85,6 +85,10 @@ export const EventSampleCalendar = () => {
     console.debug("handleOnEventCreate", event, inst);
   }
 
+  const handleOnInit = (event: any, inst: EventcalendarBase) => {
+    console.debug("handleOnInit", event, inst);
+  }
+
   return (
     <Eventcalendar
       locale={localeJa}
@@ -101,6 +105,7 @@ export const EventSampleCalendar = () => {
       onCellRightClick={handleOnCellRightClick}
       onEventClick={handleOnEventClick}
       onEventCreate={handleOnEventCreate}
+      onInit={handleOnInit}
     />
   );
 }
