@@ -5,6 +5,7 @@ import {
   MbscCalendarEvent,
   MbscEventcalendarView,
   MbscCellClickEvent,
+  MbscCellHoverEvent,
   EventcalendarBase,
 } from "@mobiscroll/react";
 import "@mobiscroll/react/dist/css/mobiscroll.scss";
@@ -60,6 +61,10 @@ export const EventSampleCalendar = () => {
     console.debug("handleOnCellDoubleClick", event, inst);
   }
 
+  const handleOnCellHover = (event: MbscCellHoverEvent, inst: EventcalendarBase) => {
+    console.debug("handleOnCellHover", event, inst);
+  }
+
   return (
     <Eventcalendar
       locale={localeJa}
@@ -71,6 +76,7 @@ export const EventSampleCalendar = () => {
       dragToResize={true}
       onCellClick={handleOnCellClick}
       onCellDoubleClick={handleOnCellDoubleClick}
+      onCellHoverIn={handleOnCellHover}
     />
   );
 }
