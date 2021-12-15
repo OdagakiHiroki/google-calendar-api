@@ -56,6 +56,10 @@ export const EventSampleCalendar = () => {
     console.debug("handleOnCellClick", event, inst);
   }
 
+  const handleOnCellDoubleClick = (event: MbscCellClickEvent, inst: EventcalendarBase) => {
+    console.debug("handleOnCellDoubleClick", event, inst);
+  }
+
   return (
     <Eventcalendar
       locale={localeJa}
@@ -66,6 +70,7 @@ export const EventSampleCalendar = () => {
       dragToMove={true}
       dragToResize={true}
       onCellClick={handleOnCellClick}
+      onCellDoubleClick={handleOnCellDoubleClick}
     />
   );
 }
