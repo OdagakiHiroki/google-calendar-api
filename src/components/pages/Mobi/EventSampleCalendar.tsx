@@ -149,10 +149,22 @@ export const EventSampleCalendar = () => {
     console.debug(invalids);
   }
 
+  const handleNavigate = () => {
+    // if (!calendarInstRef.current) {
+    //   return;
+    // }
+    console.debug(calendarInst)
+    if (!calendarInst) {
+      return;
+    }
+    calendarInst.navigate(new Date(2021, 10, 15))
+  }
+
   return (
     <>
       <button onClick={handleGetEvents}>getEvents</button>
       <button onClick={handleGetInvalids}>getInvalids</button>
+      <button onClick={handleNavigate}>navigate</button>
       <Eventcalendar
         ref={setCalendarInst}
         locale={localeJa}
