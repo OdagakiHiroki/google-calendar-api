@@ -65,6 +65,10 @@ export const EventSampleCalendar = () => {
     console.debug("handleOnCellHover", event, inst);
   }
 
+  const handleOnCellHoverOut = (event: MbscCellHoverEvent, inst: EventcalendarBase) => {
+    console.debug("handleOnCellHoverOut", event, inst);
+  }
+
   return (
     <Eventcalendar
       locale={localeJa}
@@ -77,6 +81,7 @@ export const EventSampleCalendar = () => {
       onCellClick={handleOnCellClick}
       onCellDoubleClick={handleOnCellDoubleClick}
       onCellHoverIn={handleOnCellHover}
+      onCellHoverOut={handleOnCellHoverOut}
     />
   );
 }
