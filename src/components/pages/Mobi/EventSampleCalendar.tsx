@@ -9,6 +9,7 @@ import {
   MbscEventClickEvent,
   MbscEventCreateEvent,
   MbscLabelClickEvent,
+  MbscPageChangeEvent,
   EventcalendarBase,
 } from "@mobiscroll/react";
 import "@mobiscroll/react/dist/css/mobiscroll.scss";
@@ -94,6 +95,10 @@ export const EventSampleCalendar = () => {
     console.debug("handleOnLabelClick", event, inst);
   }
 
+  const handleOnPageChange = (event: MbscPageChangeEvent, inst: EventcalendarBase) => {
+    console.debug("handleOnPageChange", event, inst);
+  }
+
   return (
     <Eventcalendar
       locale={localeJa}
@@ -112,6 +117,7 @@ export const EventSampleCalendar = () => {
       onEventCreate={handleOnEventCreate}
       onInit={handleOnInit}
       onLabelClick={handleOnLabelClick}
+      onPageChange={handleOnPageChange}
     />
   );
 }
