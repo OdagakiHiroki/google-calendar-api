@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import {
   Eventcalendar,
   localeJa,
@@ -16,6 +16,7 @@ import {
 import "@mobiscroll/react/dist/css/mobiscroll.scss";
 
 export const EventSampleCalendar = () => {
+  const calendarInstRef = useRef(null);
   const [myEvents, setMyEvents] = useState<MbscCalendarEvent[]>([
     {
       start: new Date(),
@@ -102,6 +103,7 @@ export const EventSampleCalendar = () => {
 
   const handleOnPageLoaded = (event: MbscPageLoadedEvent, inst: EventcalendarBase) => {
     console.debug("handleOnPageLoaded", event, inst);
+    console.debug("available calendarInstance", calendarInstRef);
   }
 
   const handleOnPageLoading = (event: MbscPageLoadedEvent, inst: EventcalendarBase) => {
@@ -110,6 +112,7 @@ export const EventSampleCalendar = () => {
 
   return (
     <Eventcalendar
+      ref={calendarInstRef}
       locale={localeJa}
       view={view}
       data={myEvents}
