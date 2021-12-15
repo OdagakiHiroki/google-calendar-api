@@ -52,6 +52,21 @@ export const EventSampleCalendar = () => {
     },
   ]);
 
+  const invalids = [
+    {
+      start: "12:00",
+      end: "13:00",
+      recurring: { repeat: "weekly", weekDays: "MO,TU,WE,TH,FR" },
+      title: "Lunch break",
+    },
+    {
+      recurring: {
+        repeat: "weekly",
+        weekDays: "SA,SU",
+      },
+    },
+  ];
+
   const view: MbscEventcalendarView = {
     calendar: { type: "month" },
     // agenda: { type: "week" },
@@ -123,14 +138,28 @@ export const EventSampleCalendar = () => {
     console.debug(events);
   }
 
+  const handleGetInvalids = () => {
+    // if (!calendarInstRef.current) {
+    //   return;
+    // }
+    if (!calendarInst) {
+      return;
+    }
+    const invalids = calendarInst.getInvalids(new Date(2021, 11, 1), new Date(2021, 11, 31))
+    console.debug(invalids);
+  }
+
   return (
     <>
-      <div onClick={handleGetEvents}>getEvents</div>
+      <button onClick={handleGetEvents}>getEvents</button>
+      <button onClick={handleGetInvalids}>getInvalids</button>
       <Eventcalendar
         ref={setCalendarInst}
         locale={localeJa}
         view={view}
         data={myEvents}
+        invalid={invalids}
+        exclusiveEndDates={true}
         clickToCreate={"double"}
         dragToCreate={true}
         dragToMove={true}
