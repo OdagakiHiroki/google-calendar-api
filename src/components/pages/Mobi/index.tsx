@@ -13,6 +13,7 @@ import {
 import "@mobiscroll/react/dist/css/mobiscroll.scss";
 import { ExternalDragEvent } from "components/pages/Mobi/ExternalDragEvent";
 import { CustomEventCalendar } from "components/pages/Mobi/CustomEventCalendar";
+import { EventSampleCalendar } from "components/pages/Mobi/EventSampleCalendar";
 
 export const Mobi = () => {
   const [myEvents, setMyEvents] = useState<MbscCalendarEvent[]>([
@@ -160,6 +161,7 @@ export const Mobi = () => {
         dragToMove={true}
         dragToResize={true}
       />
+      <EventSampleCalendar />
     </>
   );
 };
