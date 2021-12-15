@@ -16,7 +16,8 @@ import {
 import "@mobiscroll/react/dist/css/mobiscroll.scss";
 
 export const EventSampleCalendar = () => {
-  const calendarInstRef = useRef(null);
+  // const calendarInstRef = useRef<Eventcalendar>(null);
+  const [calendarInst, setCalendarInst] = useState<Eventcalendar | null>(null);
   const [myEvents, setMyEvents] = useState<MbscCalendarEvent[]>([
     {
       start: new Date(),
@@ -103,35 +104,50 @@ export const EventSampleCalendar = () => {
 
   const handleOnPageLoaded = (event: MbscPageLoadedEvent, inst: EventcalendarBase) => {
     console.debug("handleOnPageLoaded", event, inst);
-    console.debug("available calendarInstance", calendarInstRef);
+    // console.debug("available calendarInstance", calendarInstRef);
+    console.debug("available calendarInstance", calendarInst);
   }
 
   const handleOnPageLoading = (event: MbscPageLoadedEvent, inst: EventcalendarBase) => {
     console.debug("handleOnPageLoading", event, inst);
   }
 
+  const handleGetEvents = () => {
+    // if (!calendarInstRef.current) {
+    //   return;
+    // }
+    if (!calendarInst) {
+      return;
+    }
+    const events = calendarInst.getEvents(new Date(2021, 11, 1), new Date(2021, 11, 31))
+    console.debug(events);
+  }
+
   return (
-    <Eventcalendar
-      ref={calendarInstRef}
-      locale={localeJa}
-      view={view}
-      data={myEvents}
-      clickToCreate={"double"}
-      dragToCreate={true}
-      dragToMove={true}
-      dragToResize={true}
-      onCellClick={handleOnCellClick}
-      onCellDoubleClick={handleOnCellDoubleClick}
-      onCellHoverIn={handleOnCellHover}
-      onCellHoverOut={handleOnCellHoverOut}
-      onCellRightClick={handleOnCellRightClick}
-      onEventClick={handleOnEventClick}
-      onEventCreate={handleOnEventCreate}
-      onInit={handleOnInit}
-      onLabelClick={handleOnLabelClick}
-      onPageChange={handleOnPageChange}
-      onPageLoaded={handleOnPageLoaded}
-      onPageLoading={handleOnPageLoading}
-    />
+    <>
+      <div onClick={handleGetEvents}>getEvents</div>
+      <Eventcalendar
+        ref={setCalendarInst}
+        locale={localeJa}
+        view={view}
+        data={myEvents}
+        clickToCreate={"double"}
+        dragToCreate={true}
+        dragToMove={true}
+        dragToResize={true}
+        onCellClick={handleOnCellClick}
+        onCellDoubleClick={handleOnCellDoubleClick}
+        onCellHoverIn={handleOnCellHover}
+        onCellHoverOut={handleOnCellHoverOut}
+        onCellRightClick={handleOnCellRightClick}
+        onEventClick={handleOnEventClick}
+        onEventCreate={handleOnEventCreate}
+        onInit={handleOnInit}
+        onLabelClick={handleOnLabelClick}
+        onPageChange={handleOnPageChange}
+        onPageLoaded={handleOnPageLoaded}
+        onPageLoading={handleOnPageLoading}
+      />
+    </>
   );
 }
