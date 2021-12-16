@@ -7,6 +7,7 @@ import {
   CalendarNext,
   CalendarToday,
   CalendarNav,
+  formatDate,
 } from "@mobiscroll/react";
 
 export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (
@@ -14,13 +15,13 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (
 ) => {
   const view: MbscEventcalendarView = {
     // calendar: { type: "month" },
-    // agenda: { type: "week" },
+    agenda: { type: "week" },
     // schedule: {
     //   type: "week"
     // },
-    timeline: {
-      type: "week",
-    },
+    // timeline: {
+    //   type: "week",
+    // },
   };
 
   const renderCustomHeader = useCallback(() => {
@@ -90,7 +91,10 @@ export const CustomEventCalendar: React.VFC<MbscEventcalendarOptions> = (
             <li>{day.date}</li>
             {/* TODO: type definition */}
             {day.events.map((event: any) => (
-              <li key={event.id}>{event.title}</li>
+              <React.Fragment key={event.id}>
+                <li>{event.title}</li>
+                <li>{formatDate("YYYY/MM/DD", event.startDate)}</li>
+              </React.Fragment>
             ))}
           </ul>
         ))}
