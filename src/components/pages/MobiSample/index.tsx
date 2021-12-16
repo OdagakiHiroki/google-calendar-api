@@ -7,7 +7,10 @@ import {
   CalendarToday,
   CalendarNext,
   MbscEventcalendarView,
+  MbscEventCreateEvent,
+  EventcalendarBase,
 } from "@mobiscroll/react";
+import { useGetEvents } from "hooks";
 import { SideBar } from "components/organisms/SideBar";
 import { Humburger } from "./style";
 
@@ -25,6 +28,7 @@ type ViewType = {
 };
 
 export const MobiSample = () => {
+  const events = useGetEvents();
   const VIEW: ViewType = {
     CALENDAR: {
       MONTH: { calendar: { type: "month" } },
@@ -49,6 +53,10 @@ export const MobiSample = () => {
     setIsShowSideBar(false);
   };
 
+  const handleOnEventCreate = (event: MbscEventCreateEvent, inst: EventcalendarBase) => {
+    console.debug("handleOnEventCreate", event, inst);
+  }
+
   const renderCustomHeader = useCallback(() => {
     return (
       <>
@@ -66,7 +74,15 @@ export const MobiSample = () => {
       <Eventcalendar
         locale={localeJa}
         view={view}
+        data={events}
+        clickToCreate={"double"}
+        dragToCreate={true}
+        dragToMove={true}
+        dragToResize={true}
+        externalDrop={true}
+        showEventTooltip={false}
         renderHeader={renderCustomHeader}
+        onEventCreate={handleOnEventCreate}
       />
       {isShowSideBar && (
         <SideBar

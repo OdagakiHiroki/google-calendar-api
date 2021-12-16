@@ -17,7 +17,6 @@ export const getEventList: GetEventList = async ({ calendarId }) => {
       calendarId
     });
     const { result, status } = await thenReq(req);
-    console.debug(await thenReq(req));
     if (status !== 200) {
       return { nextSyncToken: null, nextPageToken: null, eventList: [] };
     }
