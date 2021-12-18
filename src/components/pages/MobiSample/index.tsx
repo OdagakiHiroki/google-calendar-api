@@ -8,9 +8,12 @@ import {
   CalendarNext,
   MbscEventcalendarView,
   MbscEventCreateEvent,
+  MbscEventUpdatedEvent,
+  MbscEventDeleteEvent,
   EventcalendarBase,
 } from "@mobiscroll/react";
-import { useGetEvents } from "hooks";
+import { useGetCalendarList, useGetEvents } from "hooks";
+import { Overlay } from "components/atoms/Overlay";
 import { SideBar } from "components/organisms/SideBar";
 import { Humburger } from "./style";
 
@@ -28,7 +31,7 @@ type ViewType = {
 };
 
 export const MobiSample = () => {
-  const events = useGetEvents();
+  const calendarList = useGetCalendarList();
   const VIEW: ViewType = {
     CALENDAR: {
       MONTH: { calendar: { type: "month" } },
@@ -43,6 +46,10 @@ export const MobiSample = () => {
   };
   const [isShowSideBar, setIsShowSideBar] = useState(false);
   const [view, setView] = useState<MbscEventcalendarView>(VIEW.CALENDAR.MONTH);
+  const [selectedCalendarList, setSelectedCalendarList] = useState<gapi.client.calendar.CalendarListEntry[]>([]);
+  console.debug(selectedCalendarList);
+  const events = useGetEvents(selectedCalendarList);
+  console.debug(calendarList, events);
 
   const menuClick = useCallback(() => {
     setIsShowSideBar(!isShowSideBar);
@@ -53,8 +60,37 @@ export const MobiSample = () => {
     setIsShowSideBar(false);
   };
 
+  const changeSelectedCalendar = (e: React.ChangeEvent<HTMLElement>, calendar: gapi.client.calendar.CalendarListEntry) => {
+    e.stopPropagation();
+    const isSelected = selectedCalendarList.some(selectedCalendar => selectedCalendar.id === calendar.id);
+    console.debug(isSelected);
+    if (isSelected) {
+      setSelectedCalendarList(prevCalendars => {
+        return prevCalendars.filter(prevCalendar => prevCalendar.id !== calendar.id);
+      });
+      return;
+    }
+    setSelectedCalendarList(prev => {
+      return [...prev, calendar]
+    });
+  }
+
   const handleOnEventCreate = (event: MbscEventCreateEvent, inst: EventcalendarBase) => {
     console.debug("handleOnEventCreate", event, inst);
+  }
+
+  const handleOnEventCreated = (event: MbscEventCreateEvent, inst: EventcalendarBase) => {
+    console.debug("handleOnEventCreated", event, inst);
+  }
+
+  const handleOnEVentUpdated = (event: MbscEventUpdatedEvent, inst: EventcalendarBase) => {
+    console.debug("handleOnEVentUpdated", event, inst);
+  }
+
+  const handleOnEventDelte = (event: MbscEventDeleteEvent, inst: EventcalendarBase) => {
+    console.debug("handleOnEventDelte", event, inst);
+    // prevent delete
+    return false;
   }
 
   const renderCustomHeader = useCallback(() => {
@@ -72,25 +108,34 @@ export const MobiSample = () => {
   return (
     <>
       <Eventcalendar
+        themeVariant="light"
         locale={localeJa}
         view={view}
         data={events}
-        clickToCreate={"double"}
-        dragToCreate={true}
+        // clickToCreate={"double"}
+        // dragToCreate={true}
         dragToMove={true}
         dragToResize={true}
         externalDrop={true}
         showEventTooltip={false}
         renderHeader={renderCustomHeader}
         onEventCreate={handleOnEventCreate}
+        onEventCreated={handleOnEventCreated}
+        onEventUpdated={handleOnEVentUpdated}
+        onEventDelete={handleOnEventDelte}
       />
       {isShowSideBar && (
-        <SideBar
-          handleScheduleClick={(e) => changeView(e, VIEW.AGENDA.WEEK)}
-          handleDateClick={(e) => changeView(e, VIEW.SCHEDULE.DAY)}
-          handleWeekClick={(e) => changeView(e, VIEW.SCHEDULE.WEEK)}
-          handleMonthClick={(e) => changeView(e, VIEW.CALENDAR.MONTH)}
-        />
+        <Overlay isActive={isShowSideBar} onClick={() => setIsShowSideBar(false)}>
+          <SideBar
+            calendarList={calendarList}
+            selectedCalendarList={selectedCalendarList}
+            handleSelectedCalendarChange={changeSelectedCalendar}
+            handleScheduleClick={(e) => changeView(e, VIEW.AGENDA.WEEK)}
+            handleDateClick={(e) => changeView(e, VIEW.SCHEDULE.DAY)}
+            handleWeekClick={(e) => changeView(e, VIEW.SCHEDULE.WEEK)}
+            handleMonthClick={(e) => changeView(e, VIEW.CALENDAR.MONTH)}
+          />
+        </Overlay>
       )}
     </>
   );
