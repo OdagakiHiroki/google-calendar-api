@@ -54,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "@types/gapi.calendar": "^3.0.6",
     "@types/react-big-calendar": "^0.36.1"
   }
 }
