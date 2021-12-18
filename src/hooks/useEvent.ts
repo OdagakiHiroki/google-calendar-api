@@ -48,11 +48,13 @@ export const useGetEvents: UseGetEvents = (calendarList) => {
             if (!start || !end) {
               return events;
             }
+            // TODO: 繰り返し設定に応じて対応が必要
             events.push({
-              id: calendar.id,
+              ...currentEvent,
               title: summary,
               start: start.date ?? start.dateTime,
               end: end.date ?? end.dateTime,
+              allDay: Boolean(start.date || end.date)
             });
             return events;
           }, []);

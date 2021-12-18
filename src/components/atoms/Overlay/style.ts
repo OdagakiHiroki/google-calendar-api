@@ -7,6 +7,7 @@ const Container = styled.div<{ isActive: boolean }>`
   display: flex;
   width: 100vw;
   height: 100%;
+  padding: 24px;
   transition: background-color, 200ms;
   background-color: rgba(0, 0, 0, 0);
   pointer-events: none;

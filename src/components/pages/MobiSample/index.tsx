@@ -11,10 +11,13 @@ import {
   MbscEventUpdatedEvent,
   MbscEventDeleteEvent,
   EventcalendarBase,
+  MbscEventClickEvent,
 } from "@mobiscroll/react";
 import { useGetCalendarList, useGetEvents } from "hooks";
 import { Overlay } from "components/atoms/Overlay";
 import { SideBar } from "components/organisms/SideBar";
+import { EventDetail } from "components/organisms/EventDetail";
+import { PopUp } from "components/atoms/PopUp";
 import { Humburger } from "./style";
 
 type ViewType = {
@@ -45,6 +48,8 @@ export const MobiSample = () => {
     },
   };
   const [isShowSideBar, setIsShowSideBar] = useState(false);
+  const [isShowCalendarDetail, setIsShowCalendarDetail] = useState(false);
+  const [selectedEvent, setSelectedEvent] = useState<gapi.client.calendar.Event | null>(null);
   const [view, setView] = useState<MbscEventcalendarView>(VIEW.CALENDAR.MONTH);
   const [selectedCalendarList, setSelectedCalendarList] = useState<gapi.client.calendar.CalendarListEntry[]>([]);
   console.debug(selectedCalendarList);
@@ -73,6 +78,11 @@ export const MobiSample = () => {
     setSelectedCalendarList(prev => {
       return [...prev, calendar]
     });
+  }
+
+  const handleOnEventClick = (event: MbscEventClickEvent, inst: EventcalendarBase) => {
+    setSelectedEvent(event.event as gapi.client.calendar.Event);
+    setIsShowCalendarDetail(true);
   }
 
   const handleOnEventCreate = (event: MbscEventCreateEvent, inst: EventcalendarBase) => {
@@ -119,6 +129,7 @@ export const MobiSample = () => {
         externalDrop={true}
         showEventTooltip={false}
         renderHeader={renderCustomHeader}
+        onEventClick={handleOnEventClick}
         onEventCreate={handleOnEventCreate}
         onEventCreated={handleOnEventCreated}
         onEventUpdated={handleOnEVentUpdated}
@@ -136,6 +147,13 @@ export const MobiSample = () => {
             handleMonthClick={(e) => changeView(e, VIEW.CALENDAR.MONTH)}
           />
         </Overlay>
+      )}
+      {isShowCalendarDetail && (
+        <Overlay isActive={isShowCalendarDetail} onClick={() => setIsShowCalendarDetail(false)}>
+          <PopUp>
+            <EventDetail eventData={selectedEvent} />
+          </PopUp>
+      </Overlay>
       )}
     </>
   );
