@@ -3,6 +3,8 @@ import reset from "styled-reset";
 import { createGlobalStyle } from "styled-components";
 import { BeforeRenderElement } from "BeforeRenderElement";
 import { Top } from "components/pages/Top";
+import { Mobi } from "components/pages/Mobi";
+import { MobiSample } from "components/pages/MobiSample";
 import { Login } from "components/pages/Login";
 
 const GlobalStyle = createGlobalStyle`
@@ -33,6 +35,26 @@ export const App = () => {
               <BeforeRenderElement
                 path="/"
                 element={<Top />}
+                requiresAuth={true}
+              />
+            }
+          />
+          <Route
+            path="/mobi"
+            element={
+              <BeforeRenderElement
+                path="/mobi"
+                element={<Mobi />}
+                requiresAuth={true}
+              />
+            }
+          />
+          <Route
+            path="/mobi-sample"
+            element={
+              <BeforeRenderElement
+                path="/mobi-sample"
+                element={<MobiSample />}
                 requiresAuth={true}
               />
             }
