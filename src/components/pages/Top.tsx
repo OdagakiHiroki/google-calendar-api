@@ -17,10 +17,10 @@ import { Header } from "components/organisms/Header";
 import { SideBar } from "components/organisms/SideBar";
 // import { getCalendarList } from "utils/api/calendar/calendarList";
 // import { getEventList } from "utils/api/calendar/events";
-import { useGetEvents } from "hooks";
+// import { useGetEvents } from "hooks";
 
 export const Top: React.VFC = () => {
-  const events = useGetEvents();
+  // const events = useGetEvents();
   const headerHeight = "50px";
 
   const calendarRef = useRef<FullCalendar>(null);
@@ -164,7 +164,7 @@ export const Top: React.VFC = () => {
         height={`calc(100% - ${headerHeight})`}
         plugins={[dayGridPlugin, timeGridPlugin, listPlugin, interactionPlugin]}
         initialView={currentView}
-        events={events}
+        // events={events}
         eventDragStart={(info) => handleDragStartEvent(info)}
         eventDragStop={(info) => handleDragStopEvent(info)}
         eventDrop={(info) => handleEventDrop(info)}

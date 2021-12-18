@@ -11,4 +11,11 @@ const Container = styled.div`
   z-index: 10;
 `;
 
-export { Container };
+const Row = styled.div`
+  padding: 8px 12px;
+  &:nth-of-type(2n) {
+    background-color: #dddddd;
+  }
+`;
+
+export { Container, Row };

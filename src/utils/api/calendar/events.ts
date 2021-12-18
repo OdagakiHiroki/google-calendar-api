@@ -1,11 +1,7 @@
 import { thenReq } from "utils/gapi";
 import { getIsSignedIn } from "utils/api/auth/auth";
 
-type GetEventList = ({ calendarId }: { calendarId: string }) => Promise<{
-  nextSyncToken: string;
-  nextPageToken: string;
-  eventList: any[];
-}>;
+type GetEventList = ({ calendarId }: { calendarId: string }) => Promise<gapi.client.calendar.Events>;
 
 export const getEventList: GetEventList = async ({ calendarId }) => {
   try {
@@ -13,16 +9,12 @@ export const getEventList: GetEventList = async ({ calendarId }) => {
     if (!isSignedIn) {
       return { nextSyncToken: null, nextPageToken: null, eventList: [] };
     }
-    const req = window.gapi.client.calendar.events.list({
+    const req = gapi.client.calendar.events.list({
       calendarId
-    });
-    const { result, status } = await thenReq(req);
-    if (status !== 200) {
-      return { nextSyncToken: null, nextPageToken: null, eventList: [] };
-    }
-    const { nextSyncToken, nextPageToken, items } = result;
-    return { nextSyncToken, nextPageToken, eventList: items };;
+    })
+    const { result } = await thenReq(req);
+    return result;
   } catch (error) {
-    return { nextSyncToken: null, nextPageToken: null, eventList: [] };
+    console.error(error);
   }
 };

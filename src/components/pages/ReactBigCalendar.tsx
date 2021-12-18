@@ -13,7 +13,7 @@ import {
   getPrevWeek,
   getPrevDate,
 } from "utils";
-import { useGetEvents } from "hooks";
+// import { useGetEvents } from "hooks";
 import { Header } from "components/organisms/Header";
 import { SideBar } from "components/organisms/SideBar";
 
@@ -32,7 +32,7 @@ const TimeGutterHeader = (date: string) => {
 };
 
 export const Top: VFC = () => {
-  const events = useGetEvents();
+  // const events = useGetEvents();
   const [currentView, setCurrentView] = useState<View>("day");
   const [currentDate, setCurrentDate] = useState(new Date());
   const [isShowSideBar, setIsShowSideBar] = useState(false);
@@ -95,7 +95,7 @@ export const Top: VFC = () => {
         defaultDate={currentDate}
         view={currentView}
         date={currentDate}
-        events={events}
+        // events={events}
         startAccessor="start"
         endAccessor="end"
         style={{ height: "calc(100vh - 50px)" }}
